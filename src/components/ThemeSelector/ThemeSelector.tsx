@@ -1,6 +1,28 @@
 import { selectorContainer, themeLabelStyle, mainContainerStyle, containerStyle, buttonStyle } from './ThemeSelectorStyles';
 
-export default function ThemeSelector (props: any) {
+
+interface props {
+    colors: {
+        mainBackground: string,
+        keypadBackground: string,
+        screenBackground: string,
+
+        del_reset_background: string,
+        del_reset_shaddow: string,
+        equal_toggle_background: string,
+        equal_toggle_shaddow: string,
+        keysBackground: string,
+        keysShaddow: string,
+
+        primaryText: string,
+        secondaryText: string,
+        contrastOnlyText?: string   
+    },
+    theme: string,
+    changeTheme: any
+  }
+
+export default function ThemeSelector (props: props) {
     
     const buttonContainer = {
         ...containerStyle,
