@@ -1,20 +1,4 @@
 interface props {
-    // colors: {
-    //     mainBackground: string,
-    //     keypadBackground: string,
-    //     screenBackground: string,
-
-    //     del_reset_background: string,
-    //     del_reset_shaddow: string,
-    //     equal_toggle_background: string,
-    //     equal_toggle_shaddow: string,
-    //     keysBackground: string,
-    //     keysShaddow: string,
-
-    //     primaryText: string,
-    //     secondaryText: string,
-    //     contrastOnlyText?: string   
-    // },
     color: string
     output: number
   }
@@ -37,7 +21,7 @@ export default function Display (props: props) {
         padding: '5px 1rem 0',
 
         borderRadius: 10,
-        background: props.color,
+        backgroundColor: props.color,
 
         fontSize: 32
     }

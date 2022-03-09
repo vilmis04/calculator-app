@@ -51,7 +51,7 @@ function App() {
         <ThemeSelector colors={colorScheme} theme={themeNumber} changeTheme={changeTheme}/>
       </div>
       <Display output={output} color={colorScheme.screenBackground}/>
-      <InputKeys />
+      <InputKeys colors={colorScheme} theme={themeNumber} />
     </div>
   );
 }

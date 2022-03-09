@@ -26,7 +26,7 @@ export const lightMode = {
     keysBackground: 'hsl(45, 7%, 89%)',
     keysShaddow: 'hsl(35, 11%, 61%)',
 
-    primaryText: 'hsl(0, 0, 100%)',
+    primaryText: 'hsl(0, 0%, 100%)',
     secondaryText: 'hsl(60, 10%, 19%)'
   }
 
@@ -44,5 +44,5 @@ export const contrastMode = {
 
     primaryText: 'hsl(198, 20%, 13%)',
     secondaryText: 'hsl(52, 100%, 62%)',
-    contrastOnlyText: 'hsl(0, 0, 100%)'
+    contrastOnlyText: 'hsl(0, 0%, 100%)'
   }
