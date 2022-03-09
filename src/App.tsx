@@ -9,6 +9,7 @@ function App() {
 
   const [ colorScheme, setColorScheme ] = useState(darkMode);
   const [ themeNumber, setThemeNumber ] = useState('1');
+  const [ output, setOutput ] = useState(0);
   document.querySelector('body')!.style.background = colorScheme.mainBackground;
 
   function changeTheme(target: any) {
@@ -49,7 +50,7 @@ function App() {
         <div id='logo' style={logoStyle}>calc</div>
         <ThemeSelector colors={colorScheme} theme={themeNumber} changeTheme={changeTheme}/>
       </div>
-      <Display />
+      <Display output={output} color={colorScheme.screenBackground}/>
       <InputKeys />
     </div>
   );

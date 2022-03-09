@@ -1,6 +1,5 @@
 import { selectorContainer, themeLabelStyle, mainContainerStyle, containerStyle, buttonStyle } from './ThemeSelectorStyles';
 
-
 interface props {
     colors: {
         mainBackground: string,
