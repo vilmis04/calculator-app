@@ -26,7 +26,7 @@ export default function ThemeSelector (props: props) {
     const buttonContainer = {
         ...containerStyle,
         backgroundColor: props.colors.keypadBackground,
-        borderRadius: '0.5rem'
+        borderRadius: '1rem'
     }
 
     const selected = props.colors.equal_toggle_background;
