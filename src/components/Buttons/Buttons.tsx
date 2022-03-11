@@ -75,7 +75,7 @@ export default function Buttons (props: props) {
                 break;
         }
             return (
-                <button data-number={key} style={inputStyle}>
+                <button key={key} data-number={key} style={inputStyle}>
                     {key}
                 </button>
             );
