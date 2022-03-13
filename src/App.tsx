@@ -6,6 +6,13 @@ import ThemeSelector from './components/ThemeSelector/ThemeSelector';
 import { darkMode, lightMode, contrastMode } from './colorSchemes';
 // import { parseInput, performAction } from './functions/functions';
 
+/* bugs/features:
+## STATUS Description
+01 PENDING Negation logic not implemented
+02 PENDING Multiple operations not implemented
+03 PENDING Operand replacing not implemented
+
+ */
 
 function App() {
 
@@ -95,7 +102,7 @@ function App() {
         if (!isNaN(firstMember) && operand && lastKey === key) {
           const result = performAction(firstMember, operand, secondMember);
           setOutput(result.toString());
-          if (typeof result === 'number') setFirstMember(result);
+          if (typeof result === 'number') setFirstMember(result); // type narrowing before setting firstMember
         } else if (!isNaN(firstMember) && operand) {
         setSecondMember(parseInput(output));
         const result = performAction(firstMember, operand, parseInput(output));
