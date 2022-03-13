@@ -30,7 +30,7 @@ export default function Buttons (props: props) {
         'RESET', '='
     ];
 
-        const keyIDs = {
+    const keyIDs: {[key: string]:string} = {
         '1': 'one',
         '2': 'two',
         '3': 'three',
@@ -51,14 +51,12 @@ export default function Buttons (props: props) {
         'RESET': 'clear'
     }
 
-
-    const buttons = inputButtons.map(key => {
+    const buttons = inputButtons.map((key) => {
         const contrastText = props.colors.contrastOnlyText ? props.colors.contrastOnlyText : '';
         const primaryText = props.colors.primaryText;
         const secondaryText = props.colors.secondaryText;
         const theme = props.theme;
 
-        // const id = keyIDs['x'];
 
         let inputStyle = {
             padding: '5px 0 0',
@@ -99,8 +97,7 @@ export default function Buttons (props: props) {
                 break;
         }
             return (
-                <button key={key} data-number={key} style={inputStyle}>
-                {/* <button id={keyIDs[key]} key={key} data-number={key} style={inputStyle}> */}
+                <button id={keyIDs[key]} key={key} data-number={key} style={inputStyle}>
                     {key}
                 </button>
             );

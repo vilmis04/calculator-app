@@ -27,7 +27,7 @@ export default function Display (props: props) {
     }
 
     return (
-        <div style={styles}>
+        <div id='display' style={styles}>
             {output}
         </div>
     );

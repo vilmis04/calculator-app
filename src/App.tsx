@@ -32,8 +32,6 @@ function App() {
     setThemeNumber(selectedTheme);
   }
 
-
-
   // styles
 
   const appStyle = {
