@@ -45,14 +45,10 @@ function App() {
   }
 
   function handleClick (target: any): void {
-    // if (output.length >= 17) return;
-    // const numbers = ['1','2','3','4','5','6','7','8','9','0'];
     const operands = ['+','-','/','x'];
     const specialCases = ['DEL', 'RESET', '=', '.'];
 
     const key = target.dataset.number;
-    // console.log(key);
-
 
     if (specialCases.includes(key)) {
       handleSpecialCase(key);
@@ -87,18 +83,19 @@ function App() {
       case 'DEL':
         setOutput('0');
         break;
+
       case 'RESET':
         setOutput('0');
         setFirstMember(NaN);
         setSecondMember(NaN);
         setOperand('');
         break;
+
       case '=':
         if (!isNaN(firstMember) && operand && lastKey === key) {
           const result = performAction(firstMember, operand, secondMember);
           setOutput(result.toString());
           if (typeof result === 'number') setFirstMember(result);
-
         } else if (!isNaN(firstMember) && operand) {
         setSecondMember(parseInput(output));
         const result = performAction(firstMember, operand, parseInput(output));
@@ -106,6 +103,10 @@ function App() {
         if (typeof result === 'number') setFirstMember(result);
       }
       break;
+
+    case '.':
+      if (output.includes('.')) break;
+      setOutput(output.concat(key));
     }
   }
 
