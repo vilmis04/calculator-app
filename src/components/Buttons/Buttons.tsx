@@ -15,7 +15,8 @@ interface props {
         secondaryText: string,
         contrastOnlyText?: string   
     },
-    theme: string
+    theme: string,
+    handleClick: (target: any) => void
   }
 
 
@@ -97,7 +98,7 @@ export default function Buttons (props: props) {
                 break;
         }
             return (
-                <button id={keyIDs[key]} key={key} data-number={key} style={inputStyle}>
+                <button id={keyIDs[key]} key={key} data-number={key} style={inputStyle} onClick={(event) => props.handleClick(event.target)}> 
                     {key}
                 </button>
             );

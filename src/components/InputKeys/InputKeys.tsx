@@ -17,7 +17,8 @@ interface props {
         secondaryText: string,
         contrastOnlyText?: string   
     },
-    theme: string
+    theme: string,
+    handleClick: (target: any) => void
   }
 
 export default function InputKeys (props: props) {
@@ -41,7 +42,7 @@ export default function InputKeys (props: props) {
 
     return (
         <div style={containerStyle}>
-            <Buttons colors={props.colors} theme={props.theme} />
+            <Buttons colors={props.colors} theme={props.theme} handleClick={props.handleClick} />
         </div>
     );
 }

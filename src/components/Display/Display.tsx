@@ -1,6 +1,6 @@
 interface props {
     color: string
-    output: number
+    output: string
   }
 
 export default function Display (props: props) {
@@ -23,7 +23,8 @@ export default function Display (props: props) {
         borderRadius: 10,
         backgroundColor: props.color,
 
-        fontSize: 32
+        fontSize: 32,
+        overflow: 'hidden'
     }
 
     return (
