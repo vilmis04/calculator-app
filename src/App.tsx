@@ -4,15 +4,6 @@ import Display from './components/Display/Display';
 import InputKeys from './components/InputKeys/InputKeys';
 import ThemeSelector from './components/ThemeSelector/ThemeSelector';
 import { darkMode, lightMode, contrastMode } from './colorSchemes';
-// import { parseInput, performAction } from './functions/functions';
-
-/* bugs/features:
-## STATUS Description
-01 PENDING Negation logic not implemented
-02 PENDING Multiple operations not implemented
-03 PENDING Operand replacing not implemented
-
- */
 
 function App() {
 
@@ -23,13 +14,11 @@ function App() {
   const [ secondMember, setSecondMember ] = useState(NaN);
   const [ operand, setOperand ] = useState('');
   const [ lastKey, setLastKey ] = useState('');
-  // const [ result, setResult ] = useState(NaN);
+  const [ specialPressed, setSpecialPressed ] = useState(false);
+  const [ negateNext, setNegateNext ] = useState(false);
   document.querySelector('body')!.style.background = colorScheme.mainBackground;
 
-  // console.log('first: '+firstMember);
-  // console.log('second: '+secondMember);
-  // console.log('operand: '+operand);
-
+  // theme changer
 
   function changeTheme(target: any): void {
     const selectedTheme = target.dataset.theme;
@@ -51,89 +40,117 @@ function App() {
     setThemeNumber(selectedTheme);
   }
 
+  // calculator logic
+
   function handleClick (target: any): void {
+
     const operands = ['+','-','/','x'];
-    const specialCases = ['DEL', 'RESET', '=', '.'];
+    const specialChars = ['DEL', 'RESET', '=', '.'];
 
     const key = target.dataset.number;
 
-    if (specialCases.includes(key)) {
-      handleSpecialCase(key);
-      // check if special case can be performed
-      // treat '-' as negation of number or skip to handling as operand
-      // perform special case
+    
+
+    if (specialChars.includes(key)) {
+      handleSpecialChars(key);
     } else if (operands.includes(key)) {
-      setOperand(key);
-      if (isNaN(firstMember)) {
-        setFirstMember(parseInput(output));
-        setOutput('0');
-      } else {
-        setOutput('0');
-      }
-      //save the current state of output to first member if it is free
-      //if result is populated and operand is used, save the result as the first member
-      //if the number is not the first one - perform the action and save in the result
+      handleOperation(key);
+    } else if ((output.startsWith('0') && !output.startsWith('0.')) 
+      || (specialPressed && !negateNext)) {
+      setOutput(key);
+      setSpecialPressed(false);
     } else {
-      if (output.startsWith('0') && !output.startsWith('0.')) {
-        setOutput(key);
-      } else {
-        setOutput(output.concat(key));
-      }
-    }
-    setLastKey(key);
-  }
-
-  // helper functions
-
-  function handleSpecialCase(key: string): void {
-    switch (key) {
-      case 'DEL':
-        setOutput('0');
-        break;
-
-      case 'RESET':
-        setOutput('0');
-        setFirstMember(NaN);
-        setSecondMember(NaN);
-        setOperand('');
-        break;
-
-      case '=':
-        if (!isNaN(firstMember) && operand && lastKey === key) {
-          const result = performAction(firstMember, operand, secondMember);
-          setOutput(result.toString());
-          if (typeof result === 'number') setFirstMember(result); // type narrowing before setting firstMember
-        } else if (!isNaN(firstMember) && operand) {
-        setSecondMember(parseInput(output));
-        const result = performAction(firstMember, operand, parseInput(output));
-        setOutput(result.toString());
-        if (typeof result === 'number') setFirstMember(result);
-      }
-      break;
-
-    case '.':
-      if (output.includes('.')) break;
       setOutput(output.concat(key));
+      setNegateNext(false);
+    }
+
+    setLastKey(key);
+
+
+
+  //  functions
+
+  function handleSpecialChars(key: string): void {
+
+    const specialOperations: {[key: string]: ()=>void} = {
+      'RESET': () => resetApp(),
+      'DEL': () => setOutput('0'),
+      '.': () => addPoint(output),
+      '=': () => handleEqual()
+      }
+
+      const action = specialOperations[key];
+      action();
     }
   }
 
-  function parseInput(output:string): number {
-    return parseFloat(output);
+  function resetApp(): void {
+    setOutput('0');
+    setFirstMember(NaN);
+    setSecondMember(NaN);
+    setOperand('');
   }
 
-  function performAction(first:number, operation:string, second:number): number | string {
-    switch (operation) {
-        case '+':
-            return first+second;
-        case '-':
-            return first-second;
-        case 'x':
-            return first*second;
-        case '/':
-            return second != 0 ? first/second : 'Error!';
-        default:
-            return 'Error!';
+  function addPoint(output: string) {
+    if (!output.includes('.')) setOutput(output.concat('.'));
+  }
+
+  function handleOperation(key: string) {
+    if (specialPressed && key === '-') {
+      setOutput('-');
+      setNegateNext(true);
+      return;
+    } else if (specialPressed && negateNext) {
+      setOutput('');
+      setNegateNext(false);
+      setOperand(key);
+      return;
+
+    } else if (specialPressed) {
+      setOperand(key);
+      return;
     }
+
+    setSpecialPressed(true);
+    setOperand(key);
+
+    if (isNaN(firstMember)) {
+      setFirstMember(parseFloat(output));
+    } else {
+      const result = calculate(firstMember, parseFloat(output));
+      setFirstMember(result);
+      setSecondMember(parseFloat(output));
+      setOutput(result.toString());
+    }
+  }
+
+  function calculate(first:number, second:number):number {
+    const operations: {[key: string]:(a:number, b:number) => number} = {
+      '+': (a,b) => a+b,
+      '-': (a,b) => a-b,
+      '/': (a,b) => a/b,
+      'x': (a,b) => a*b
+    }
+
+    const action = operations[operand];
+    return action(first, second);
+
+  }
+
+  function handleEqual ():void {
+    setSpecialPressed(true);
+    if (lastKey === '=') {
+      const result = calculate(firstMember, secondMember);
+      setFirstMember(result);
+      setOutput(result.toString());
+      return;
+      }
+
+      const result = calculate(firstMember, parseFloat(output));
+      setOutput(result.toString());
+      setFirstMember(result);
+      setSecondMember(parseFloat(output));
+      setOutput(result.toString());
   }
 
   // styles
@@ -145,13 +162,6 @@ function App() {
   const logoStyle = {
     fontSize: '2rem'
   }
-
-  console.log('---------------');
-  console.log('output: '+output);
-  console.log('firstMember: '+firstMember);
-  console.log('secondMember: '+secondMember);
-  console.log('operand: '+operand);
-  console.log('lastKey: '+lastKey);
 
   return (
     <div id='app' style={appStyle}>
