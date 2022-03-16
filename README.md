@@ -10,7 +10,7 @@ Simple immediate execution logic calculator app with three different color schem
 
 ### Screenshot
 
-![](./screenshot.jpg)
+![](https://github.com/vilmis04/calculator-app/blob/master/xdp_C.DK5FJ1?raw=true)
 
 
 
